@@ -25,9 +25,23 @@
 
 ---
 
-## 快速开始
+## 一键安装（推荐）
 
-### 克隆 + 安装
+```bash
+curl -fsSL https://raw.githubusercontent.com/BaBiQ888/headcontrol/main/Scripts/bootstrap.sh | bash
+```
+
+这条命令会：克隆源码到 `~/.headcontrol-src` → 编译 → 打包 → 拷到 `/Applications` → 启动。完成后只需要按下面的指引授权一次摄像头和辅助功能即可。
+
+升级也是同一条命令；卸载见脚本运行结束的提示。
+
+> 第一次跑会安装 Xcode Command Line Tools（如果还没装），可能需要十几分钟。
+
+---
+
+## 手动安装（开发者）
+
+如果想魔改代码或频繁迭代：
 
 ```bash
 git clone https://github.com/BaBiQ888/headcontrol.git
@@ -37,9 +51,9 @@ cd headcontrol
 
 `install.sh` 会自动构建、签名、拷到 `/Applications`、启动。
 
-### 一次性证书设置（强烈推荐）
+### 一次性证书设置（仅开发者需要）
 
-不做这一步，每次重新构建后 macOS 都会撤销 Camera / Accessibility 授权 — 因为 ad-hoc 签名身份每次会变。
+频繁重新构建时，每次新 ad-hoc 签名身份都会让 macOS 撤销 Camera / Accessibility 授权。创建一个稳定的自签名证书可以一劳永逸。
 
 打开 **钥匙串访问 → 证书助理 → 创建证书...**：
 
@@ -52,6 +66,8 @@ cd headcontrol
 创建完后第一次运行 codesign 时会弹"是否允许 codesign 访问 HeadControl Dev"对话框，点 **始终允许**，输入登录密码。
 
 之后每次 `./Scripts/install.sh` 都会自动用这个证书签名，授权永久有效。
+
+> 普通用户用 `bootstrap.sh` 一键安装时**不需要**这一步 — 装完授权一次就长期有效，除非主动跑升级才会再次撤销。
 
 ### 授权摄像头 + 辅助功能
 
@@ -137,8 +153,9 @@ headcontrol/
 │   ├── MenuBarIcon.png            54×54 黑色透明 (template image)
 │   └── AppIcon.png                1024×1024 全彩
 ├── Scripts/
-│   ├── make-app.sh                构建 + 打包 + 签名
+│   ├── bootstrap.sh               一键安装入口（克隆 → 构建 → 部署）
 │   ├── install.sh                 部署到 /Applications + 启动
+│   ├── make-app.sh                构建 + 打包 + 签名
 │   └── generate-placeholder-logos.swift
 ├── Package.swift
 ├── LICENSE
