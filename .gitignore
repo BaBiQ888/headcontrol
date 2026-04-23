@@ -1,0 +1,25 @@
+# macOS
+.DS_Store
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# Xcode
+*.xcodeproj/
+xcuserdata/
+DerivedData/
+*.xcworkspace/
+
+# Build outputs
+HeadControl.app/
+
+# IDEs
+.vscode/
+.idea/
+
+# Claude Code local settings
+.claude/
+
+# Logs
+*.log
